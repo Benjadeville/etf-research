@@ -65,6 +65,37 @@ issuers, currencies, and exchanges.
   3.5 hours before New York, leaving European market makers exposed to residual
   US session moves hedged via S&P 500 futures (ES1)
 
+## 2. ETF Premium/Discount Monitor
+
+**Notebook**: `premium-discount/etf_premium_discount.ipynb`
+
+Analyses daily premium/discount of CSPX.L vs its official iShares NAV
+(sourced directly from iShares.com — not a proxy).
+
+### Results
+
+| Metric | Value |
+|---|---|
+| Mean premium/discount | +1.85 bps |
+| Std deviation | 73.27 bps |
+| Max premium | +550.12 bps (16 Mar 2020) |
+| Max discount | -662.09 bps (13 Mar 2020) |
+| Days at premium | 48.1% |
+| Days at discount | 51.9% |
+| Stress days (>\|100 bps\|) | 145 days |
+
+### Key Findings
+- Near-zero mean (+1.85 bps) confirms efficient AP arbitrage mechanism
+- Largest dislocations cluster around **Covid crash (Mar 2020)**,
+  **Fed pivots (May/Nov 2022)**, and **FOMC surprises (Dec 2024)**
+- Root cause of all major dislocations: **closing price risk** —
+  London closes 3.5h before NYSE, leaving market makers exposed
+  to residual US session moves hedged via S&P 500 futures (ES1)
+- AP creation/redemption mechanism corrects dislocations at end of day,
+  explaining the mean reversion to near zero over time
+
+![Premium Discount](assets/premium_discount.png)
+
 ### Methodology Note
 
 All closing prices from `yfinance`. Cross-exchange correlations are affected
@@ -82,4 +113,5 @@ Python · pandas · numpy · matplotlib · yfinance · Jupyter
 ```bash
 pip install pandas numpy matplotlib yfinance jupyter
 jupyter notebook replication-tracker/etf_replication.ipynb
+jupyter notebook premium-discount/etf_premium_discount.ipynb
 ```
