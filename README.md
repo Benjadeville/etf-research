@@ -50,8 +50,6 @@ issuers, currencies, and exchanges.
 
 → Cost of hedging: **-3.98%/year** — EUR investor paid to remove FX exposure
 
-![Replication Tracker](assets/replication_tracker.png)
-
 ### Key Findings
 
 - Both iShares and Vanguard outperform the price return index — explained by
@@ -64,6 +62,9 @@ issuers, currencies, and exchanges.
   data issue, but a real market feature: **closing price risk**. London closes
   3.5 hours before New York, leaving European market makers exposed to residual
   US session moves hedged via S&P 500 futures (ES1)
+
+  ![Replication Tracker](assets/replication_tracker.png)
+
 
 ## 2. ETF Premium/Discount Monitor
 
@@ -96,6 +97,48 @@ Analyses daily premium/discount of CSPX.L vs its official iShares NAV
 
 ![Premium Discount](assets/premium_discount.png)
 
+
+## 3. ETF Liquidity Analysis
+
+**Notebook**: `liquidity-analysis/etf_liquidity.ipynb`
+
+Analyses bid-ask spreads, trading volumes, and price impact across
+three S&P 500 UCITS ETFs using market microstructure methods.
+
+### Methods
+- **Corwin-Schultz (2012)** spread estimator — infers bid-ask spread
+  from daily High/Low price ratios without tick data
+- **Amihud (2002)** illiquidity ratio — price impact per dollar traded
+
+### Results
+
+| ETF | Avg Spread (bps) | Avg Volume | Amihud |
+|---|---|---|---|
+| iShares CSPX.L (London) | 53.57 | 116,644 | 0.23 |
+| Vanguard VUSA.L (London) | 24.19 | 284,262 | 0.57 |
+| BNP ESE.PA (Paris) | 17.72 | 112,670 | 13.02 |
+| SPY (US benchmark) | 27.51 | 81,674,899 | 0.0003 |
+
+### Liquidity during stress
+
+| Period | CSPX.L | VUSA.L | ESE.PA |
+|---|---|---|---|
+| Covid crash (Feb–Apr 2020) | 86.90 bps | 94.27 bps | 69.10 bps |
+| Fed hike cycle (2022) | 24.02 bps | 27.83 bps | 24.92 bps |
+| Normal (2023) | 14.66 bps | 21.92 bps | 13.99 bps |
+
+### Key Findings
+- **ESE.PA paradox**: lowest spread (17 bps) but highest Amihud (13) —
+  thin market at Paris means each trade moves the price more
+- **Stress multiplier**: spreads widen 3–5x during Covid crash,
+  with volume spiking simultaneously — classic liquidity crisis pattern
+- **Market maker behaviour**: wide spreads + high volume = market makers
+  present but demanding compensation for inventory risk
+
+![Liquidity Analysis](assets/liquidity_analysis.png)
+
+---
+
 ### Methodology Note
 
 All closing prices from `yfinance`. Cross-exchange correlations are affected
@@ -114,4 +157,5 @@ Python · pandas · numpy · matplotlib · yfinance · Jupyter
 pip install pandas numpy matplotlib yfinance jupyter
 jupyter notebook replication-tracker/etf_replication.ipynb
 jupyter notebook premium-discount/etf_premium_discount.ipynb
+jupyter notebook liquidity-analysis/etf_liquidity.ipynb
 ```
