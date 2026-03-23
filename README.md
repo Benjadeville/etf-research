@@ -137,6 +137,27 @@ three S&P 500 UCITS ETFs using market microstructure methods.
 
 ![Liquidity Analysis](assets/liquidity_analysis.png)
 
+
+## 4. Market Making Simulator
+**Notebook**: `market-making-simulator/etf_market_making.ipynb`
+
+Simulates a market maker on CSPX.L quoting a 20 bps spread, managing
+inventory up to ±1,000 shares, participating in 1% of daily volume.
+
+| Period | Spread P&L | Inv P&L | Total P&L | Sharpe |
+|---|---|---|---|---|
+| Covid crash (2020) | $38,905 | -$66,629 | -$27,724 | -1.57 |
+| Bull market (2021) | $99,487 | +$78,862 | $178,348 | 4.03 |
+| Fed hike cycle (2022) | $119,120 | -$50,610 | $68,510 | 0.88 |
+| Normal (2023) | $120,529 | +$18,278 | $138,807 | 3.64 |
+| Bull (2024) | $171,655 | -$69,559 | $102,096 | 2.48 |
+| **Total** | **$631,815** | **-$82,556** | **$549,259** | |
+
+**Key findings**: Profitable over full period · Only losing during Covid crash ·
+Adverse selection is the core risk · Real MM would hedge via ES1 futures
+
+![Market Making](assets/market_making.png)
+
 ---
 
 ### Methodology Note
@@ -158,4 +179,5 @@ pip install pandas numpy matplotlib yfinance jupyter
 jupyter notebook replication-tracker/etf_replication.ipynb
 jupyter notebook premium-discount/etf_premium_discount.ipynb
 jupyter notebook liquidity-analysis/etf_liquidity.ipynb
+jupyter notebook market-making-simulator/etf_market_making.ipynb
 ```
